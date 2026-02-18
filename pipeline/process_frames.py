@@ -1,6 +1,6 @@
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
+from vector_db import save_db
 import os
 from deepface import DeepFace
 from vector_db import add_embedding
@@ -42,7 +42,7 @@ def process_all_frames():
             continue
 
         print("Processing video:", video_folder)
-
+        save_db()
         for frame in os.listdir(video_path):
             frame_path = os.path.join(video_path, frame)
             process_frame(frame_path, video_folder, frame)

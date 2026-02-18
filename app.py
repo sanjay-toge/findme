@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from face_engine import generate_embedding, compare_embeddings
-from vector_db import add_embedding, search_embedding
+from vector_db import add_embedding, search_embedding, get_total_faces
 from deepface import DeepFace
 
 app = FastAPI()
@@ -28,6 +28,13 @@ async def add_face(file: UploadFile = File(...), label: str = "unknown"):
     emb = generate_embedding(await file.read())
     add_embedding(emb, {"label": label})
     return {"status": "stored"}
+
+
+@app.get("/faces/count")
+async def faces_count():
+    """Return the total number of stored face embeddings."""
+    total = get_total_faces()
+    return {"total": total}
 
 # @app.post("/search")
 # async def search_face(file: UploadFile = File(...)):

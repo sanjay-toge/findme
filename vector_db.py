@@ -35,7 +35,7 @@ def add_embedding(embedding, data):
     vec = normalize([embedding])
     index.add(vec)
     metadata.append(data)
-    save_db()
+    # save_db()
 
 def search_embedding(embedding, k=5):
     vec = normalize([embedding])
@@ -55,3 +55,15 @@ def search_embedding(embedding, k=5):
     return results
 
 load_db()
+
+
+def get_total_faces():
+    """Return the total number of embeddings stored in the FAISS index.
+
+    Uses the FAISS index `ntotal` property when available, falling back to
+    the length of the `metadata` list.
+    """
+    try:
+        return int(index.ntotal)
+    except Exception:
+        return len(metadata)
